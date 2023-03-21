@@ -4,6 +4,7 @@
 
 
 # include <iostream>
+# include <fstream>
 # include <string>
 # include <vector>
 # include <map>
@@ -11,7 +12,7 @@
 class BitcoinExchange
 {
     private:
-        std::fstream ff("bitcoin.csv");
+        std::fstream *ff;
         std::map<std::string, std::string> dict;
     public:
         BitcoinExchange();
