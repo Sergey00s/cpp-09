@@ -12,7 +12,9 @@ int execer2(char *str, char *prog, char **pargs, char **env)
     memmove(args + 2, args, sizeof(char *) * (strlen(str) + 1));
     args[0] = prog;
     args[1] = str;
-    return(execve(prog, args, env));
+    int ret = execve(prog, args, env);
+    fprintf(stderr, "Error: execve failed\n");
+    exit(ret);
 }
 
 
@@ -52,7 +54,7 @@ int main(int argc, char **argv, char **env)
             else
             {
                 fprintf(stderr, "Error: Missing closing quote\n");
-                return (1);
+                exit(1);
             }            
             continue;
         }
