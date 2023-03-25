@@ -4,9 +4,15 @@
 
 
 
-int main()
+int main(int ac, char **av)
 {
-    BitcoinExchange exchange;
+    if (ac != 2)
+    {
+        std::cout << "Usage: ./ex00 <filename>" << std::endl;
+        return 1;
+    }
+
+    BitcoinExchange exchange(av[1]);
     exchange.run();
     return 0;
 }
