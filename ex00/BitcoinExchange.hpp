@@ -16,11 +16,13 @@ class BitcoinExchange
         std::fstream *ff;
         std::fstream *in;
         std::map<std::string, std::string> dict;
-        std::map<std::string, std::string> indict;
+        std::vector<std::vector> indict;
 
     public:
         BitcoinExchange(std::string filename);
+
         ~BitcoinExchange();
+        void trim(std::string &str);
         void putout(std::string key, std::string value);
         void run();
 };
