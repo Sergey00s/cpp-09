@@ -27,9 +27,15 @@ BitcoinExchange::BitcoinExchange(std::string filename)
     }
     while (std::getline(*this->in, line))
     {
-        std::string key = line.substr(0, line.find('|'));
+        std::size_t found = line.find('|');
+        std::string key = line.substr(0, found);
         trim(key);
-        std::string value = line.substr(line.find('|') + 1);
+        if (found == std::string::npos)
+        {
+            this->indict.push_back(std::make_pair(key, "NaN"));
+            continue;
+        }
+        std::string value = line.substr(found + 1);
         trim(value);
         this->indict.push_back(std::make_pair(key, value));
     }
@@ -58,20 +64,25 @@ void BitcoinExchange::putout(std::string inkey, std::string inval)
     int val;
     float oval;
 
-    if (this->dict.count(inkey) == 0)
+    if (inval == "NaN")
     {
         std::cout << "Error: " << "bad input => " << inkey << std::endl;
         return;
     }
+    if (this->dict.count(inkey) == 0)
+    {
+
+        std::cout << "Error: " << "bad inpu2t => " << inkey << std::endl;
+        return;
+    }
     oval = atof(this->dict[inkey].c_str());
-    
     val = atof(inval.c_str());
     if (val < 0)
     {
         std::cout << "Error: " << "not a positive number."<< std::endl;
         return;
     }
-    if (oval > 1000)
+    if (val > 1000)
     {
         std::cout << "Error: " << "too large a number." << std::endl;
         return;
@@ -83,10 +94,19 @@ void BitcoinExchange::putout(std::string inkey, std::string inval)
 
 void BitcoinExchange::run()
 {
-    std::map<std::string, std::string>::iterator it;
+
+        //     std::map<std::string, std::string>::iterator it;
+        // for (it = this->dict.begin(); it != this->dict.end(); it++)
+        // {
+        //     std::cout << it->first << " => " << it->second << std::endl;
+        // }
+
+
+    std::vector<std::pair<std::string, std::string> >::iterator it;
     for (it = this->indict.begin(); it != this->indict.end(); it++)
     {
-        std::cout << it->first << " > " << it->second << std::endl;
+       // std::cout << it->first << " > " << it->second << std::endl;
+
        putout(it->first, it->second);
     }
 }
