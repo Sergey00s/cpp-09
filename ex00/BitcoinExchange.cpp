@@ -57,6 +57,8 @@ BitcoinExchange::~BitcoinExchange()
 {
     this->ff->close();
     delete this->ff;
+    this->in->close();
+    delete this->in;
 }
 
 void BitcoinExchange::putout(std::string inkey, std::string inval)
@@ -87,26 +89,22 @@ void BitcoinExchange::putout(std::string inkey, std::string inval)
         std::cout << "Error: " << "too large a number." << std::endl;
         return;
     }
-    oval = val * oval; 
+    oval = val * oval;
     std::cout << inkey << " => " << inval << " = " << oval << std::endl;
 
 }
 
 void BitcoinExchange::run()
 {
-
         //     std::map<std::string, std::string>::iterator it;
         // for (it = this->dict.begin(); it != this->dict.end(); it++)
         // {
         //     std::cout << it->first << " => " << it->second << std::endl;
         // }
-
-
     std::vector<std::pair<std::string, std::string> >::iterator it;
     for (it = this->indict.begin(); it != this->indict.end(); it++)
     {
        // std::cout << it->first << " > " << it->second << std::endl;
-
        putout(it->first, it->second);
     }
 }
