@@ -3,17 +3,55 @@
 
 RPN::RPN(std::string line)
 {
-    this->tokens = "+-*/0123456789";
     std::string::iterator it = line.begin();
-
+    std::stack<char> stacktemp;
+    std::stack<char> stacktemp2;
     while (it != line.end())
     {
-        if (this->tokens.find(*it) != std::string::npos)
+        if (*it == ' ')
         {
-            this->stack.push(*it);
+            it++;
+            continue;
         }
+        if (*it == '+' || *it == '-' || *it == '*' || *it == '/')
+        {
+            stacktemp2.push(*it);
+            it++;
+            continue;
+        }
+        if (*it >= '0' && *it <= '9')
+        {
+            int number = 0;
+            while (*it >= '0' && *it <= '9')
+            {
+                number = number * 10 + (*it - '0');
+                it++;
+            }
+            stacktemp.push(number);
+            continue;
+        }
+        else
+            {
+                std::cout << "Error" << std::endl;
+                std::exit(1);
+                return;
+            }
+        it++;
     }
+    while (!stacktemp.empty())
+    {
+        stack.push(stacktemp.top());
+        stacktemp.pop();
+    }
+
+    while (!stacktemp2.empty())
+    {
+        operators.push(stacktemp2.top());
+        stacktemp2.pop();
+    }
+
 }
+
 
 
 RPN::~RPN()
@@ -24,48 +62,31 @@ RPN::~RPN()
 
 void RPN::run()
 {
-    std::stack<char> stack;
-    std::string tokens = "+-*/0123456789";
-    std::string::iterator it = this->tokens.begin();
-
-
-    int res;
-    std::size_t pos;
-    while (it != this->tokens.end())
+    while (!operators.empty())
     {
-        if (pos = tokens.find(*it) != std::string::npos)
+        if (stack.size() < 2)
         {
-            for (int i = 0; i < pos; i++)
-            {
-                if (stack.size() < 2)
-                {
-                    std::cout << "Error: not enough operands" << std::endl;
-                    return;
-                }
-                int a = stack.top();
-                stack.pop();
-                int b = stack.top();
-                stack.pop();
-                if (pos == 0)
-                {
-                    res = a + b;
-                }
-                else if (pos == 1)
-                {
-                    res = a - b;
-                }
-                else if (pos == 2)
-                {
-                    res = a * b;
-                }
-                else if (pos == 3)
-                {
-                    res = a / b;
-                }
-                stack.push(res);
-            }
+            std::cout << "Error" << std::endl;
+            return;
         }
+        int a = stack.top();
+        stack.pop();
+        int b = stack.top();
+        stack.pop();
+        char op = operators.top();
+        if (!(op == '+' || op == '-' || op == '*' || op == '/'))
+            return;
+        operators.pop();
+        if (op == '+')
+            stack.push(a + b);
+        if (op == '-')
+            stack.push(a - b);
+        if (op == '*')
+            stack.push(a * b);
+        if (op == '/')
+            stack.push(a / b);
     }
+    std::cout << stack.top() << std::endl;
 }
 
 

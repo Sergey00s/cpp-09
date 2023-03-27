@@ -9,8 +9,8 @@
 class RPN
 {
     private:
-        std::stack<char> stack;
-        std::string tokens;
+        std::stack<char> operators;
+        std::stack<int> stack;
     public:
         RPN(std::string line);
         ~RPN();
