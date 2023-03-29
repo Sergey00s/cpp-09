@@ -64,7 +64,7 @@ void RPN::run()
 {
     while (!operators.empty())
     {
-        if (stack.size() < 2)
+        if (stack.size() < 2 || stack.size() % 2 != 0 )
         {
             std::cout << "Error" << std::endl;
             return;
