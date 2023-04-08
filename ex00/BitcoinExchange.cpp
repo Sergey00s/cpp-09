@@ -80,9 +80,7 @@ void BitcoinExchange::run()
     std::string key;
     std::string value;
 
-
     std::fstream *in = new std::fstream(this->filename.c_str(), std::ios::in);
-
     if (!in->is_open())
     {
         std::cout << "Error: file not found" << std::endl;
@@ -90,10 +88,13 @@ void BitcoinExchange::run()
     }
     while (std::getline(*in, line))
     {
-        key = line.substr(0, line.find(','));
+        key = line.substr(0, line.find('|'));
         trim(key);
-        value = line.substr(line.find(',') + 1);
+        value = line.substr(line.find('|') + 1);
         trim(value);
+        
         putout(key, value);
     }
+    in->close();
+    delete in;
 }

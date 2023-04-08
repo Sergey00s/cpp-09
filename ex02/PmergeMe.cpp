@@ -11,6 +11,7 @@ PmergeMe::PmergeMe(char **av)
         i++;
     }
     std::cout << std::endl;
+    _vector.assign(_list.begin(), _list.end());
 }
 
 PmergeMe::~PmergeMe()
@@ -145,7 +146,6 @@ std::vector<int> &PmergeMe::getVector()
     return _vector;
 }
 
-
 void PmergeMe::print()
 {
     std::cout << "after: ";
@@ -156,8 +156,8 @@ void PmergeMe::print()
         it++;
     }
     std::cout << std::endl;
-    std :: cout << "to process a range of " << _list.size() << " elements with std::list : " << _list_time  << std::endl;
-    std::cout << std::endl;
+    std :: cout << "to process a range of " << _list.size() << " elements with std::list : " << _list_time << " us" << std::endl;
+    std :: cout << "to process a range of " << _vector.size() << " elements with std::vector : " << _vector_time << " us" << std::endl;
 }
 
 void PmergeMe::timeset()
