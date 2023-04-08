@@ -19,26 +19,7 @@ BitcoinExchange::BitcoinExchange(std::string filename)
         this->dict[key] = value;
     }
     line.clear();
-    this->in = new std::fstream(filename.c_str());
-    if (!this->in->is_open())
-    {
-        std::cout << "Error: file not found" << std::endl;
-        std::exit(1);
-    }
-    while (std::getline(*this->in, line))
-    {
-        std::size_t found = line.find('|');
-        std::string key = line.substr(0, found);
-        trim(key);
-        if (found == std::string::npos)
-        {
-            this->indict.push_back(std::make_pair(key, "NaN"));
-            continue;
-        }
-        std::string value = line.substr(found + 1);
-        trim(value);
-        this->indict.push_back(std::make_pair(key, value));
-    }
+    this->filename = filename;
 }
 
 
@@ -57,8 +38,6 @@ BitcoinExchange::~BitcoinExchange()
 {
     this->ff->close();
     delete this->ff;
-    this->in->close();
-    delete this->in;
 }
 
 void BitcoinExchange::putout(std::string inkey, std::string inval)
@@ -96,15 +75,25 @@ void BitcoinExchange::putout(std::string inkey, std::string inval)
 
 void BitcoinExchange::run()
 {
-        //     std::map<std::string, std::string>::iterator it;
-        // for (it = this->dict.begin(); it != this->dict.end(); it++)
-        // {
-        //     std::cout << it->first << " => " << it->second << std::endl;
-        // }
-    std::vector<std::pair<std::string, std::string> >::iterator it;
-    for (it = this->indict.begin(); it != this->indict.end(); it++)
+
+    std::string line;
+    std::string key;
+    std::string value;
+
+
+    std::fstream *in = new std::fstream(this->filename.c_str(), std::ios::in);
+
+    if (!in->is_open())
     {
-       // std::cout << it->first << " > " << it->second << std::endl;
-       putout(it->first, it->second);
+        std::cout << "Error: file not found" << std::endl;
+        std::exit(1);
+    }
+    while (std::getline(*in, line))
+    {
+        key = line.substr(0, line.find(','));
+        trim(key);
+        value = line.substr(line.find(',') + 1);
+        trim(value);
+        putout(key, value);
     }
 }

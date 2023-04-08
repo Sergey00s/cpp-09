@@ -14,9 +14,8 @@ class BitcoinExchange
 {
     private:
         std::fstream *ff;
-        std::fstream *in;
         std::map<std::string, std::string> dict;
-        std::vector<std::pair<std::string, std::string> > indict;
+        std::string filename;
 
     public:
         BitcoinExchange(std::string filename);
