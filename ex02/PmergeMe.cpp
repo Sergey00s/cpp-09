@@ -7,7 +7,7 @@ PmergeMe::PmergeMe(char **av)
     while (av[i])
     {
         _list.push_back(std::stoi(av[i]));
-        std::cout << av[i] << ", ";
+        std::cout << av[i] << " ";
         i++;
     }
     std::cout << std::endl;
@@ -16,7 +16,7 @@ PmergeMe::PmergeMe(char **av)
 
 PmergeMe::~PmergeMe()
 {
-    
+
 }
 
 
@@ -153,7 +153,7 @@ void PmergeMe::print()
     std::list<int>::iterator it = _list.begin();
     while (it != _list.end())
     {
-        std::cout << *it << ", ";
+        std::cout << *it << " ";
         it++;
     }
     std::cout << std::endl;
