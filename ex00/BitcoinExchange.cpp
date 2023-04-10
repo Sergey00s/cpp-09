@@ -22,17 +22,6 @@ BitcoinExchange::BitcoinExchange(std::string filename)
     }
     line.clear();
     this->filename = filename;
-
-
-    // std::map<std::string, std::string>::iterator it = this->dict.begin();
-    // auto f = fopen("dene", "w");
-    // while (it != this->dict.end())
-    // {
-    //     fprintf(f, "|%s=>%s|\n", it->first.c_str(), it->second.c_str());
-    //     it++;
-    // }
-    // fclose(f);
-    // getchar();
 }
 
 
